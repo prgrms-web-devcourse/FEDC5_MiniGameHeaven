@@ -1,5 +1,9 @@
+import BLOCKS from './blocks.js';
 const $playboard = document.querySelector('.playboard > ul');
 const $miniboard = document.querySelector('.miniboard > ul');
+const $scoreboard = document.querySelector('.score');
+const $retryButton = document.querySelector('.gameover > button');
+const $gameover = document.querySelector('.gameover');
 
 // 보드판 칸수 세팅값
 const ROWS = 20;
@@ -17,35 +21,7 @@ const movingItem = {
   top: 0,
   left: 0,
 };
-const BLOCKS = {
-  //초기모습부터 반시계방향으로 90도 회전
-  tree: [
-    [
-      [2, 1],
-      [0, 1],
-      [1, 1],
-      [1, 0],
-    ],
-    [
-      [2, 1],
-      [1, 2],
-      [1, 1],
-      [1, 0],
-    ],
-    [
-      [2, 1],
-      [0, 1],
-      [1, 1],
-      [1, 2],
-    ],
-    [
-      [1, 2],
-      [0, 1],
-      [1, 1],
-      [1, 0],
-    ],
-  ],
-};
+
 //
 function renderBlocks(moveType = '') {
   const { type, direction, top, left } = movingItemTmp;
@@ -67,8 +43,12 @@ function renderBlocks(moveType = '') {
       // 무효하거나 쌓인거에 닿음
       movingItemTmp = { ...movingItem }; // 이전 movingItem 으로 원상복구
       // renderBlocks(); // 재귀로 바로 부르면 Maximum call stack size exceeded
+      if (moveType === 'retry') {
+        showGameOver();
+        clearInterval(downInterval);
+      }
       setTimeout(() => {
-        renderBlocks();
+        renderBlocks('retry');
         if (moveType === 'top') {
           seizeBlock();
         }
@@ -83,27 +63,35 @@ function renderBlocks(moveType = '') {
   movingItem.top = top;
   movingItem.direction = direction;
 }
+function showGameOver() {
+  $gameover.style.display = 'flex';
+}
 
-// IIFE -> 보드판 그리기
-(() => {
+function makeNewLine($target, row, col) {
+  const ul = document.createElement('ul');
+  const li = document.createElement('li');
+  for (let j = 0; j < col; j++) {
+    const cell = document.createElement('li');
+    ul.prepend(cell);
+  }
+  li.prepend(ul);
+  $target.prepend(li);
+}
+
+init();
+function init() {
   function makeBoard($target, row, col) {
     for (let i = 0; i < row; i++) {
-      const ul = document.createElement('ul');
-      const li = document.createElement('li');
-      for (let j = 0; j < col; j++) {
-        const cell = document.createElement('li');
-        ul.prepend(cell);
-      }
-      li.prepend(ul);
-      $target.prepend(li);
+      makeNewLine($target, row, col);
     }
   }
 
   movingItemTmp = { ...movingItem };
   makeBoard($playboard, ROWS, COLS);
   makeBoard($miniboard, MINIROWSCOLS, MINIROWSCOLS);
-  renderBlocks();
-})();
+  // renderBlocks();
+  generateNewBlock();
+}
 
 function moveBlock(moveType, amount) {
   movingItemTmp[moveType] += amount;
@@ -117,15 +105,50 @@ function seizeBlock() {
     movingBlock.classList.remove('moving');
     movingBlock.classList.add('seized');
   });
+  checkMatch();
+}
+
+function checkMatch() {
+  const childNodes = $playboard.childNodes;
+  childNodes.forEach(child => {
+    let matched = true;
+    child.children[0].childNodes.forEach(li => {
+      if (!li.classList.contains('seized')) {
+        matched = false;
+      }
+    });
+    if (matched) {
+      child.remove(); //?
+      makeNewLine($playboard, ROWS, COLS);
+      score += 1;
+      $scoreboard.textContent = score;
+    }
+  });
   generateNewBlock();
 }
+
 function generateNewBlock() {
+  clearInterval(downInterval);
+  downInterval = setInterval(() => {
+    moveBlock('top', 1);
+  }, duration);
+
+  const BLOCKSlength = Object.entries(BLOCKS).length;
+  const randomNext = Object.entries(BLOCKS)[Math.floor(Math.random() * BLOCKSlength)];
+  movingItem.type = randomNext[0];
   movingItem.top = 0;
   movingItem.left = 3;
   movingItem.direction = 0;
   movingItemTmp = { ...movingItem };
   renderBlocks();
 }
+function dropBlock() {
+  clearInterval(downInterval);
+  downInterval = setInterval(() => {
+    moveBlock('top', 1);
+  }, 10);
+}
+
 //이벤트 핸들링
 document.addEventListener('keydown', e => {
   switch (e.code) {
@@ -145,8 +168,16 @@ document.addEventListener('keydown', e => {
     case 'ArrowLeft': // <-
       moveBlock('left', -1);
       break;
-
+    case 'Space':
+      dropBlock();
+      break;
     default:
       break;
   }
+});
+
+$retryButton.addEventListener('click', () => {
+  $playboard.innerHTML = '';
+  $gameover.style.display = 'none';
+  init();
 });

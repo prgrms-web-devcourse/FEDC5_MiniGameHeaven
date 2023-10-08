@@ -62,7 +62,44 @@ li {
   text-align: center;
 }
 
+.gameover {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  left: 0;
+  top: 0;
+  color: white;
+  font-size: 2rem;
+}
+.gameover > button {
+  padding: 0.5rem 1rem;
+  color: white;
+  background-color: salmon;
+  border: none;
+  cursor: pointer;
+}
+
 /* 블럭 색칠 */
 .tree {
   background-color: darkgreen;
+}
+.square {
+  background-color: dodgerblue;
+}
+.bar {
+  background-color: wheat;
+}
+.zee {
+  background-color: sienna;
+}
+.elLeft {
+  background-color: lightpink;
+}
+.elRight {
+  background-color: slateblue;
 }
