@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  height: 100%;
+  overflow: hidden;
+}
+ul {
+  list-style: none;
+  padding: 0px;
+}
+li {
+  list-style: none;
+}
+
+.score {
+  text-align: center;
+  margin: 1rem;
+  font-size: 25px;
+  background-color: antiquewhite;
+}
+.gamezone {
+  display: flex;
+}
+.playboard {
+  width: 70%;
+}
+.playboard > ul,
+.miniboard > ul {
+  border: 1px solid black;
+  box-sizing: border-box;
+  width: 250px;
+  margin: 0 auto; /*테트리스보드 중앙정렬 */
+}
+.miniboard > ul {
+  width: 125px;
+}
+.playboard > ul > li,
+.miniboard > ul > li {
+  width: 100%;
+  height: 25px;
+}
+.playboard > ul > li > ul,
+.miniboard > ul > li > ul {
+  display: flex;
+}
+.playboard > ul > li > ul > li,
+.miniboard > ul > li > ul > li {
+  /* 각 한칸 */
+  width: 25px;
+  height: 25px;
+  border: 0.5px solid rgb(92, 92, 92);
+  box-sizing: border-box;
+}
+.miniboard {
+  width: 30%;
+}
+
+/* 디자인시스템 */
+.textCenter {
+  text-align: center;
+}
+
+/* 블럭 색칠 */
+.tree {
+  background-color: darkgreen;
+}
