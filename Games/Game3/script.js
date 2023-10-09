@@ -1,3 +1,4 @@
+import { setupDino, updateDino } from './dino.js';
 import { setupGround, updateGround } from './ground.js';
 
 const WORLD_WIDTH = 100;
@@ -26,6 +27,7 @@ function update(time) {
   const delta = time - lastTime;
 
   updateGround(delta, speedScale);
+  updateDino(delta, speedScale);
   updateSpeedScale(delta);
   updateScore(delta);
 
@@ -47,6 +49,7 @@ function handleStart() {
   speedScale = 1;
   score = 0;
   setupGround();
+  setupDino();
   $startScreen.classList.add('hide');
   window.requestAnimationFrame(update);
 }
