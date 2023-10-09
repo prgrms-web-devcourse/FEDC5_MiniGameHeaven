@@ -31,6 +31,7 @@ function createImageTiles() {
       const li = $.createElement('li');
       li.setAttribute('data-index', index);
       li.classList.add(`list${index}`);
+      li.setAttribute('draggable', 'true');
       tempArray.push(li);
     });
 
@@ -46,3 +47,17 @@ function imageShuffle(array) {
   }
   return array;
 }
+
+//
+imageContainer.addEventListener('dragstart', e => {
+  console.log(e);
+});
+
+imageContainer.addEventListener('dragover', e => {
+  e.preventDefault();
+  console.log('over');
+});
+
+imageContainer.addEventListener('drop', e => {
+  console.log('drop');
+});
