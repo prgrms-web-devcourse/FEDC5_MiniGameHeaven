@@ -49,10 +49,72 @@ const boardUpdate = () => {
     for (let j = 0; j < 4; j++) {
       let box = document.getElementById(boardId[i][j]);
       box.innerText = board[i][j] === 0 ? '' : board[i][j];
+      changeBoxColor(box); // 색깔 변경
     }
   }
   // 점수 업데이트
   document.querySelector('.score').innerText = score;
+};
+
+// 박스 색깔 변경
+const changeBoxColor = box => {
+  let boxNum = parseInt(box.innerText);
+  switch (boxNum) {
+    case 0:
+    case 2:
+      box.style.color = '#684A23';
+      box.style.background = '#FBEDDC';
+      break;
+    case 4:
+      box.style.color = '#684A23';
+      box.style.background = '#F9E2C7';
+      break;
+    case 8:
+      box.style.color = '#684A23';
+      box.style.background = '#F6D5AB';
+      break;
+    case 16:
+      box.style.color = '#684A23';
+      box.style.background = '#F2C185';
+      break;
+    case 32:
+      box.style.color = '#684A23';
+      box.style.background = '#EFB46D';
+      break;
+    case 64:
+      box.style.color = '#FFFFFF';
+      box.style.background = '#EBA24A';
+      break;
+    case 128:
+      box.style.color = '#FFFFFF';
+      box.style.background = '#E78F24';
+      break;
+    case 256:
+      box.style.color = '#FFFFFF';
+      box.style.background = '#E87032';
+      break;
+    case 512:
+      box.style.color = '#FFFFFF';
+      box.style.background = '#E85532';
+      break;
+    case 1024:
+      box.style.color = '#FFFFFF';
+      box.style.background = '#E84532';
+      break;
+    case 2048:
+      box.style.color = '#FFFFFF';
+      box.style.background = '#E83232';
+      break;
+    default:
+      if (boxNum > 2048) {
+        box.style.color = '#FFFFFF';
+        box.style.background = '#E51A1A';
+      } else {
+        box.style.color = '#684A23';
+        box.style.background = '#FBEDDC';
+      }
+      break;
+  }
 };
 
 // 숫자 생성 확률
