@@ -59,6 +59,9 @@ function checkStatus() {
   const unMatchedList = currentList.filter((li, index) => {
     return Number(li.getAttribute('data-index')) !== index;
   });
+  if (unMatchedList.length === 0) {
+    //게임 종료 조건
+  }
 }
 
 //
