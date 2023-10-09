@@ -6,13 +6,22 @@ const playTime = $.querySelector('.playTime');
 
 const tileCount = 16;
 
-let tiles = [];
-tiles = createImageTiles();
-console.log(tiles);
+createGame();
 
-imageShuffle(tiles).forEach(tile => {
-  imageContainer.appendChild(tile);
-});
+function createGame() {
+  let tiles = [];
+  tiles = createImageTiles();
+  tiles.forEach(tile => {
+    imageContainer.appendChild(tile);
+  });
+
+  setTimeout(() => {
+    imageContainer.innerHTML = '';
+    imageShuffle(tiles).forEach(tile => {
+      imageContainer.appendChild(tile);
+    });
+  }, 2000);
+}
 
 function createImageTiles() {
   const tempArray = [];
