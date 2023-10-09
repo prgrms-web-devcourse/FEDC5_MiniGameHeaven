@@ -12,10 +12,12 @@ const dragged = {
   index: null,
 };
 
-// createGame();
+let isPlaying = false;
 
 function createGame() {
+  isPlaying = true;
   let tiles = [];
+
   tiles = createImageTiles();
   tiles.forEach(tile => {
     imageContainer.appendChild(tile);
@@ -61,11 +63,16 @@ function checkStatus() {
   });
   if (unMatchedList.length === 0) {
     //게임 종료 조건
+    gameCompleteText.style.display = 'block';
+    isPlaying = false;
   }
 }
 
 //
 imageContainer.addEventListener('dragstart', e => {
+  if (!isPlaying) {
+    return;
+  }
   const $object = e.target;
   dragged.el = $object;
   dragged.class = $object.className;
@@ -78,6 +85,9 @@ imageContainer.addEventListener('dragover', e => {
 });
 
 imageContainer.addEventListener('drop', e => {
+  if (!isPlaying) {
+    return;
+  }
   const $object = e.target;
 
   if ($object.className !== dragged.class) {
