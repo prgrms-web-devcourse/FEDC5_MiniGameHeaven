@@ -5,7 +5,6 @@ let score;
 // 키보드 입력
 const keyDownEventHandler = e => {
   const keyCode = e.keyCode;
-  console.log(keyCode);
   // 상
   if (keyCode === 38) {
     moveTop();
@@ -376,6 +375,11 @@ const isGameOver = () => {
   }
 
   // 게임 불가능하면 최고 점수 반환 및 alert
+  gameOver();
+};
+
+// 게임오버
+const gameOver = () => {
   alert(`게임 오버입니다. 최대 숫자 : ${getMaxNum()} , 최고 점수 : ${score}`);
   init();
 };
