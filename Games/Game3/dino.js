@@ -30,6 +30,14 @@ export function updateDino(delta, speedScale) {
   handleJump(delta);
 }
 
+export function getDinoRect() {
+  return $dino.getBoundingClientRect();
+}
+
+export function setDinoLose() {
+  $dino.src = './imgs/dino-lose.png';
+}
+
 function handleRun(delta, speedScale) {
   if (isJumping) {
     $dino.src = './imgs/dino-stationary.png';
