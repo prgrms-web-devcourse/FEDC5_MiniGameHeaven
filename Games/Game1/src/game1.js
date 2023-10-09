@@ -9,7 +9,7 @@ const highScore = $.querySelector('.highScore');
   const storedHighScore = window.localStorage.getItem('highScore');
   if (storedHighScore) {
     // console.log(storedHighScore);
-    highScore.innerText = String(storedHighScore);
+    highScore.innerText = `최고 기록 ${String(storedHighScore)}`;
   }
 })();
 
@@ -91,7 +91,7 @@ function checkStatus() {
 
 function storeLocalStorage(time) {
   const storedHighScore = window.localStorage.getItem('highScore');
-  if (time > storedHighScore) {
+  if (time < storedHighScore) {
     window.localStorage.setItem('highScore', Number(time));
   }
 }
@@ -117,6 +117,7 @@ imageContainer.addEventListener('drop', e => {
     return;
   }
   const $object = e.target;
+  //   console.log({ $object });
 
   if ($object.className !== dragged.class) {
     let originPlace;
