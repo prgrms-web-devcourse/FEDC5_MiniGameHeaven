@@ -381,6 +381,7 @@ const isGameOver = () => {
 // 게임오버
 const gameOver = () => {
   alert(`게임 오버입니다. 최대 숫자 : ${getMaxNum()} , 최고 점수 : ${score}`);
+  localStorage.setItem('2048최고점수', score);
   init();
 };
 
