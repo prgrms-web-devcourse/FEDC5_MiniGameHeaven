@@ -6,6 +6,12 @@ const playTime = $.querySelector('.playTime');
 
 const tileCount = 16;
 
+const dragged = {
+  el: null,
+  class: null,
+  index: null,
+};
+
 createGame();
 
 function createGame() {
@@ -50,7 +56,10 @@ function imageShuffle(array) {
 
 //
 imageContainer.addEventListener('dragstart', e => {
-  console.log(e);
+  const $object = e.target;
+  dragged.el = $object;
+  dragged.class = $object.className;
+  dragged.index = [...$object.parentNode.children].indexOf($object);
 });
 
 imageContainer.addEventListener('dragover', e => {
@@ -59,5 +68,9 @@ imageContainer.addEventListener('dragover', e => {
 });
 
 imageContainer.addEventListener('drop', e => {
-  console.log('drop');
+  const $object = e.target;
+
+  if ($object.className !== dragged.class) {
+    $object.before(dragged.el);
+  }
 });
