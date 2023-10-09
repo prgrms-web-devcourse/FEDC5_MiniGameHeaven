@@ -54,6 +54,13 @@ function imageShuffle(array) {
   return array;
 }
 
+function checkStatus() {
+  const currentList = [...imageContainer.children];
+  const unMatchedList = currentList.filter((li, index) => {
+    return Number(li.getAttribute('data-index')) !== index;
+  });
+}
+
 //
 imageContainer.addEventListener('dragstart', e => {
   const $object = e.target;
@@ -71,6 +78,19 @@ imageContainer.addEventListener('drop', e => {
   const $object = e.target;
 
   if ($object.className !== dragged.class) {
-    $object.before(dragged.el);
+    let originPlace;
+    let isLast = false;
+
+    if (dragged.el.nextSibling) {
+      originPlace = dragged.el.nextSibling;
+    } else {
+      originPlace = dragged.el.previousSibling;
+      isLast = true;
+    }
+
+    const droppedIndex = [...$object.parentNode.children].indexOf($object);
+    dragged.index > droppedIndex ? $object.before(dragged.el) : $object.after(dragged.el);
+    isLast ? originPlace.after($object) : originPlace.before($object);
   }
+  checkStatus();
 });
