@@ -22,98 +22,11 @@ const movingItem = {
   left: 0,
 };
 
-//
-function renderBlocks(moveType = '') {
-  const { type, direction, top, left } = movingItemTmp;
-  const movingBlocks = document.querySelectorAll('.moving');
-  movingBlocks.forEach(movingBlock => {
-    // 이전 블록 위치에 moving 클래스를 제거
-    movingBlock.classList.remove(type, 'moving');
-  });
-
-  BLOCKS[type][direction].some(block => {
-    const i = top + block[0];
-    const j = left + block[1];
-    // 이동한다면 색칠될 칸
-    const colored = $playboard.childNodes[i]
-      ? $playboard.childNodes[i].childNodes[0].childNodes[j]
-      : null;
-    // 유효검사
-    if (!colored || colored.classList.contains('seized')) {
-      // 무효하거나 쌓인거에 닿음
-      movingItemTmp = { ...movingItem }; // 이전 movingItem 으로 원상복구
-      // renderBlocks(); // 재귀로 바로 부르면 Maximum call stack size exceeded
-      if (moveType === 'retry') {
-        showGameOver();
-        clearInterval(downInterval);
-        return; // 게임오버인 경우이니까 종료시켜야 한다.
-      }
-      setTimeout(() => {
-        renderBlocks('retry');
-        if (moveType === 'top') {
-          seizeBlock();
-        }
-      }, 0);
-      return true; // 반복문을 중지시킬 수 있다.
-    } else {
-      /// 유효한 경우
-      colored.classList.add(type, 'moving');
-    }
-  });
-  movingItem.left = left;
-  movingItem.top = top;
-  movingItem.direction = direction;
-}
 function showGameOver() {
   $gameover.style.display = 'flex';
-  console.log(score, parseInt(localStorage.getItem('Tetris최고점수')));
   if (!localStorage.getItem('Tetris최고점수') || localStorage.getItem('Tetris최고점수') < score) {
     localStorage.setItem('Tetris최고점수', score);
   }
-}
-
-function makeNewLine($target, row, col) {
-  const ul = document.createElement('ul');
-  const li = document.createElement('li');
-  for (let j = 0; j < col; j++) {
-    const cell = document.createElement('li');
-    ul.prepend(cell);
-  }
-  li.prepend(ul);
-  $target.prepend(li);
-}
-
-init();
-function init() {
-  if (!localStorage.getItem('Tetris최고점수')) {
-    localStorage.getItem('Tetris최고점수', 0);
-  }
-  function makeBoard($target, row, col) {
-    for (let i = 0; i < row; i++) {
-      makeNewLine($target, row, col);
-    }
-  }
-
-  movingItemTmp = { ...movingItem };
-  makeBoard($playboard, ROWS, COLS);
-  makeBoard($miniboard, MINIROWSCOLS, MINIROWSCOLS);
-  // renderBlocks();
-  generateNewBlock();
-}
-
-function moveBlock(moveType, amount) {
-  movingItemTmp[moveType] += amount;
-  renderBlocks(moveType);
-}
-
-function seizeBlock() {
-  const movingBlocks = document.querySelectorAll('.moving');
-  movingBlocks.forEach(movingBlock => {
-    // 이전 블록 위치에 moving 클래스를 제거
-    movingBlock.classList.remove('moving');
-    movingBlock.classList.add('seized');
-  });
-  checkMatch();
 }
 
 function checkMatch() {
@@ -135,6 +48,85 @@ function checkMatch() {
   generateNewBlock();
 }
 
+// 키 혹은 시간에 따라 블록 이동
+function moveBlock(moveType, amount) {
+  movingItemTmp[moveType] += amount;
+  renderBlocks(moveType);
+}
+
+// 블록 이동 중지
+function seizeBlock() {
+  const movingBlocks = document.querySelectorAll('.moving');
+  movingBlocks.forEach(movingBlock => {
+    // 이전 블록 위치에 moving 클래스를 제거
+    movingBlock.classList.remove('moving');
+    movingBlock.classList.add('seized');
+  });
+  checkMatch();
+}
+
+// 최하단까지 하강
+function dropBlock() {
+  clearInterval(downInterval);
+  downInterval = setInterval(() => {
+    moveBlock('top', 1);
+  }, 10);
+}
+
+// 각 블록 렌더링
+function renderBlocks(moveType = '') {
+  const { type, direction, top, left } = movingItemTmp;
+  const movingBlocks = document.querySelectorAll('.moving');
+  movingBlocks.forEach(movingBlock => {
+    // 이전 블록 위치에 moving 클래스를 제거
+    movingBlock.classList.remove(type, 'moving');
+  });
+
+  BLOCKS[type][direction].some(block => {
+    const i = top + block[0];
+    const j = left + block[1];
+    // 이동한다면 색칠될 칸
+    const colored = $playboard.childNodes[i]
+      ? $playboard.childNodes[i].childNodes[0].childNodes[j]
+      : null;
+    if (!colored || colored.classList.contains('seized')) {
+      // 유효검사 - 무효하거나 쌓인거에 닿음
+      movingItemTmp = { ...movingItem }; // 이전 movingItem 으로 원상복구
+      // renderBlocks(); // 재귀로 바로 부르면 Maximum call stack size exceeded
+      if (moveType === 'retry') {
+        showGameOver();
+        clearInterval(downInterval);
+        return; // 게임오버인 경우이니까 종료시켜야 한다.
+      }
+      setTimeout(() => {
+        renderBlocks('retry');
+        if (moveType === 'top') {
+          seizeBlock();
+        }
+      }, 0);
+      return true; // some 반복문을 중지시킬 수 있다.
+    } else {
+      /// 유효검사 - 유효한 경우
+      colored.classList.add(type, 'moving');
+    }
+  });
+  movingItem.left = left;
+  movingItem.top = top;
+  movingItem.direction = direction;
+}
+
+function makeNewLine($target, row, col) {
+  const ul = document.createElement('ul');
+  const li = document.createElement('li');
+  for (let j = 0; j < col; j++) {
+    const cell = document.createElement('li');
+    ul.prepend(cell);
+  }
+  li.prepend(ul);
+  $target.prepend(li);
+}
+
+// 게임 재시작
 function generateNewBlock() {
   clearInterval(downInterval);
   downInterval = setInterval(() => {
@@ -150,12 +142,24 @@ function generateNewBlock() {
   movingItemTmp = { ...movingItem };
   renderBlocks();
 }
-function dropBlock() {
-  clearInterval(downInterval);
-  downInterval = setInterval(() => {
-    moveBlock('top', 1);
-  }, 10);
+
+function init() {
+  if (!localStorage.getItem('Tetris최고점수')) {
+    localStorage.getItem('Tetris최고점수', 0);
+  }
+  function makeBoard($target, row, col) {
+    for (let i = 0; i < row; i++) {
+      makeNewLine($target, row, col);
+    }
+  }
+
+  movingItemTmp = { ...movingItem };
+  makeBoard($playboard, ROWS, COLS);
+  makeBoard($miniboard, MINIROWSCOLS, MINIROWSCOLS);
+  generateNewBlock();
 }
+
+init(); // 초기 게임 시작
 
 //이벤트 핸들링
 document.addEventListener('keydown', e => {
