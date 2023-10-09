@@ -90,7 +90,10 @@ function checkStatus() {
 }
 
 function storeLocalStorage(time) {
-  window.localStorage.setItem('highScore', Number(time));
+  const storedHighScore = window.localStorage.getItem('highScore');
+  if (time > storedHighScore) {
+    window.localStorage.setItem('highScore', Number(time));
+  }
 }
 
 //
