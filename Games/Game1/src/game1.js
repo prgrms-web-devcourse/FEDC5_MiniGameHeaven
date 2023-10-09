@@ -13,10 +13,16 @@ const dragged = {
 };
 
 let isPlaying = false;
+let timeinterval = null;
+let time = 0;
 
 function createGame() {
   isPlaying = true;
   let tiles = [];
+  time = 0;
+  imageContainer.innerHTML = '';
+  clearInterval(timeinterval);
+  gameCompleteText.style.display = 'none';
 
   tiles = createImageTiles();
   tiles.forEach(tile => {
@@ -28,7 +34,11 @@ function createGame() {
     imageShuffle(tiles).forEach(tile => {
       imageContainer.appendChild(tile);
     });
-  }, 2000);
+    timeinterval = setInterval(() => {
+      playTime.innerText = time;
+      time++;
+    }, 1000);
+  }, 5000);
 }
 
 function createImageTiles() {
@@ -65,6 +75,7 @@ function checkStatus() {
     //게임 종료 조건
     gameCompleteText.style.display = 'block';
     isPlaying = false;
+    clearInterval(timeinterval);
   }
 }
 
@@ -81,7 +92,7 @@ imageContainer.addEventListener('dragstart', e => {
 
 imageContainer.addEventListener('dragover', e => {
   e.preventDefault();
-  console.log('over');
+  //   console.log('over');
 });
 
 imageContainer.addEventListener('drop', e => {
