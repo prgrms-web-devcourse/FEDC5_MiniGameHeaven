@@ -3,6 +3,13 @@
   padding: 0;
 }
 
+.highScore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+}
+
 .wrap {
   display: flex;
   justify-content: center;
