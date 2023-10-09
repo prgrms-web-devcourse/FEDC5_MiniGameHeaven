@@ -46,6 +46,7 @@ function renderBlocks(moveType = '') {
       if (moveType === 'retry') {
         showGameOver();
         clearInterval(downInterval);
+        return; // 게임오버인 경우이니까 종료시켜야 한다.
       }
       setTimeout(() => {
         renderBlocks('retry');
@@ -65,6 +66,10 @@ function renderBlocks(moveType = '') {
 }
 function showGameOver() {
   $gameover.style.display = 'flex';
+  console.log(score, parseInt(localStorage.getItem('Tetris최고점수')));
+  if (!localStorage.getItem('Tetris최고점수') || localStorage.getItem('Tetris최고점수') < score) {
+    localStorage.setItem('Tetris최고점수', score);
+  }
 }
 
 function makeNewLine($target, row, col) {
@@ -80,6 +85,9 @@ function makeNewLine($target, row, col) {
 
 init();
 function init() {
+  if (!localStorage.getItem('Tetris최고점수')) {
+    localStorage.getItem('Tetris최고점수', 0);
+  }
   function makeBoard($target, row, col) {
     for (let i = 0; i < row; i++) {
       makeNewLine($target, row, col);
