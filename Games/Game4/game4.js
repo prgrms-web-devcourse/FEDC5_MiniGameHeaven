@@ -5,12 +5,14 @@ let score;
 // 키보드 입력
 const keyDownEventHandler = e => {
   const keyCode = e.keyCode;
+  console.log(keyCode);
   // 상
   if (keyCode === 38) {
     moveTop();
   }
   // 하
   else if (keyCode === 40) {
+    moveBottom();
   }
   // 좌
   else if (keyCode === 37) {
@@ -166,6 +168,49 @@ const moveTop = () => {
   else isGameOver(); // 아니라면 게임오버 확인
 };
 // 하
+const moveBottom = () => {
+  let isMoved = false; // 이동 여부 확인
+  let isPlused = Array.from(Array(4), () => Array(4).fill(0)); // 중복 누적 방지
+  for (let i = 2; i > -1; i--) {
+    for (let j = 0; j < 4; j++) {
+      if (board[i][j] === 0) continue; // 숫자가 없으면 패스
+      let bottomY = i + 1; // 아래로 이동할 좌표
+      // 이동할 칸이 빈값이 아닐 때까지 이동
+      while (bottomY < 3 && board[bottomY][j] === 0) bottomY++;
+      // 이동할 칸이 빈값이면
+      if (board[bottomY][j] === 0) {
+        // 현재값 밀어내리고 현재값 비우기
+        board[bottomY][j] = board[i][j];
+        board[i][j] = 0;
+        isMoved = true;
+      } // 이동할 칸이 현재값과 다를 경우
+      else if (board[bottomY][j] !== board[i][j]) {
+        if (bottomY - 1 === i) continue; // 바로 아래칸이면 패스
+        // 아니라면 바로 위까지 밀어내리기
+        board[bottomY - 1][j] = board[i][j];
+        board[i][j] = 0;
+        isMoved = true;
+      } // 이동할 칸이 현재값과 같다면
+      else {
+        // 최초 이동한 칸이라면 더하기
+        if (isPlused[bottomY][j] === 0) {
+          board[bottomY][j] *= 2;
+          score += board[bottomY][j];
+          board[i][j] = 0;
+          isPlused[bottomY][j] = 1;
+          isMoved = true;
+        } // 중복 누적이라면 바로 윗칸으로 밀어내리기
+        else {
+          board[bottomY - 1][j] = board[i][j];
+          board[i][j] = 0;
+          isMoved = true;
+        }
+      }
+    }
+  }
+  if (isMoved) makeNewNum(); // 이동했으면 새로운 숫자 생성
+  else isGameOver(); // 아니라면 게임오버 확인
+};
 // 좌
 // 우
 
