@@ -1,8 +1,8 @@
 const $ = document;
 const imageContainer = $.querySelector('.wrap__imageContainer');
-const startButton = $.querySelector('.startButton');
-const gameCompleteText = $.querySelector('.gameCompleteText');
-const playTime = $.querySelector('.playTime');
+const startButton = $.querySelector('.wrap__startButton');
+const gameCompleteText = $.querySelector('.wrap__gameCompleteText');
+const playTime = $.querySelector('.wrap__playTime');
 
 const tileCount = 16;
 
@@ -12,7 +12,7 @@ const dragged = {
   index: null,
 };
 
-createGame();
+// createGame();
 
 function createGame() {
   let tiles = [];
@@ -96,4 +96,8 @@ imageContainer.addEventListener('drop', e => {
     isLast ? originPlace.after($object) : originPlace.before($object);
   }
   checkStatus();
+});
+
+startButton.addEventListener('click', () => {
+  createGame();
 });
