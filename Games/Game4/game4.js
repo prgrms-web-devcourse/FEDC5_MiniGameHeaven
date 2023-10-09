@@ -16,9 +16,11 @@ const keyDownEventHandler = e => {
   }
   // 좌
   else if (keyCode === 37) {
+    moveLeft();
   }
   // 우
   else if (keyCode === 39) {
+    moveRight();
   }
 
   boardUpdate();
@@ -212,7 +214,93 @@ const moveBottom = () => {
   else isGameOver(); // 아니라면 게임오버 확인
 };
 // 좌
+const moveLeft = () => {
+  let isMoved = false; // 이동 여부 확인
+  let isPlused = Array.from(Array(4), () => Array(4).fill(0)); // 중복 누적 방지
+  for (let i = 1; i < 4; i++) {
+    for (let j = 0; j < 4; j++) {
+      if (board[j][i] === 0) continue; // 숫자가 없으면 패스
+      let leftX = i - 1; // 왼쪽로 이동할 좌표
+      // 이동할 칸이 빈값이 아닐 때까지 이동
+      while (leftX > 0 && board[j][leftX] === 0) leftX--;
+      // 이동할 칸이 빈값이면
+      if (board[j][leftX] === 0) {
+        // 현재값 왼쪽으로 당기고 현재값 비우기
+        board[j][leftX] = board[j][i];
+        board[j][i] = 0;
+        isMoved = true;
+      } // 이동할 칸이 현재값과 다를 경우
+      else if (board[j][leftX] !== board[j][i]) {
+        if (leftX + 1 === i) continue; // 바로 왼쪽칸이면 패스
+        // 아니라면 바로 오른쪽까지 당기기
+        board[j][leftX + 1] = board[j][i];
+        board[j][i] = 0;
+        isMoved = true;
+      } // 이동할 칸이 현재값과 같다면
+      else {
+        // 최초 이동한 칸이라면 더하기
+        if (isPlused[j][leftX] === 0) {
+          board[j][leftX] *= 2;
+          score += board[j][leftX];
+          board[j][i] = 0;
+          isPlused[j][leftX] = 1;
+          isMoved = true;
+        } // 중복 누적이라면 바로 아래칸으로 밀어올리기
+        else {
+          board[j][leftX + 1] = board[j][i];
+          board[j][i] = 0;
+          isMoved = true;
+        }
+      }
+    }
+  }
+  if (isMoved) makeNewNum(); // 이동했으면 새로운 숫자 생성
+  else isGameOver(); // 아니라면 게임오버 확인
+};
 // 우
+const moveRight = () => {
+  let isMoved = false; // 이동 여부 확인
+  let isPlused = Array.from(Array(4), () => Array(4).fill(0)); // 중복 누적 방지
+  for (let i = 2; i > -1; i--) {
+    for (let j = 0; j < 4; j++) {
+      if (board[j][i] === 0) continue; // 숫자가 없으면 패스
+      let rightX = i + 1; // 오른쪽으로 이동할 좌표
+      // 이동할 칸이 빈값이 아닐 때까지 이동
+      while (rightX < 3 && board[j][rightX] === 0) rightX++;
+      // 이동할 칸이 빈값이면
+      if (board[j][rightX] === 0) {
+        // 현재값 당기고 현재값 비우기
+        board[j][rightX] = board[j][i];
+        board[j][i] = 0;
+        isMoved = true;
+      } // 이동할 칸이 현재값과 다를 경우
+      else if (board[j][rightX] !== board[j][i]) {
+        if (rightX - 1 === i) continue; // 바로 오른쪽 칸이면 패스
+        // 아니라면 바로 왼쪽까지 당기기
+        board[j][rightX - 1] = board[j][i];
+        board[j][i] = 0;
+        isMoved = true;
+      } // 이동할 칸이 현재값과 같다면
+      else {
+        // 최초 이동한 칸이라면 더하기
+        if (isPlused[j][rightX] === 0) {
+          board[j][rightX] *= 2;
+          score += board[j][rightX];
+          board[j][i] = 0;
+          isPlused[j][rightX] = 1;
+          isMoved = true;
+        } // 중복 누적이라면 바로 왼쪽 칸으로 당기기
+        else {
+          board[j][rightX - 1] = board[j][i];
+          board[j][i] = 0;
+          isMoved = true;
+        }
+      }
+    }
+  }
+  if (isMoved) makeNewNum(); // 이동했으면 새로운 숫자 생성
+  else isGameOver(); // 아니라면 게임오버 확인
+};
 
 // 새로운 숫자 생성
 const makeNewNum = () => {
