@@ -1,0 +1,12 @@
+.board-row {
+  display: flex;
+}
+
+.board-box {
+  border: 2px solid #372c25;
+  border-radius: 5px;
+  height: 70px;
+  width: 70px;
+  color: #684a23;
+  background-color: #fbeddc;
+}
