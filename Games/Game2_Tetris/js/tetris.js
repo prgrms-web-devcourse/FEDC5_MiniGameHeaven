@@ -137,7 +137,7 @@ function generateNewBlock() {
   const randomNext = Object.entries(BLOCKS)[Math.floor(Math.random() * BLOCKSlength)];
   movingItem.type = randomNext[0];
   movingItem.top = 0;
-  movingItem.left = 3;
+  movingItem.left = 4;
   movingItem.direction = 0;
   movingItemTmp = { ...movingItem };
   renderBlocks();
