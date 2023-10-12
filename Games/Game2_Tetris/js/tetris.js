@@ -21,6 +21,13 @@ const movingItem = {
   top: 0,
   left: 0,
 };
+// 다음 블럭
+const nextItem = {
+  type: '',
+  direction: 0,
+  top: 0,
+  left: 0,
+};
 
 function showGameOver() {
   $gameover.style.display = 'flex';
@@ -45,6 +52,10 @@ function checkMatch() {
       $scoreboard.textContent = score;
     }
   });
+  movingItem.type = nextItem.type;
+  movingItem.direction = 0;
+  movingItem.top = 0;
+  movingItem.left = 4;
   generateNewBlock();
 }
 
@@ -126,21 +137,65 @@ function makeNewLine($target, row, col) {
   $target.prepend(li);
 }
 
+// 다음 블록 렌더링
+function renderNextBlocks() {
+  // console.log('renderNextBlocks nextItem', nextItem);
+  const { type, direction, top, left } = nextItem;
+  $miniboard.querySelectorAll('.nextblock').forEach(block => {
+    block.classList = '';
+  });
+  BLOCKS[type][direction].some(block => {
+    const i = top + block[0];
+    const j = left + block[1];
+    // 이동한다면 색칠될 칸
+    const colored = $miniboard.childNodes[i]
+      ? $miniboard.childNodes[i].childNodes[0].childNodes[j]
+      : null;
+    if (colored) {
+      colored.classList.add(type, 'nextblock');
+    }
+  });
+}
+
 // 게임 재시작
 function generateNewBlock() {
+  console.log('generateNewBlock', nextItem, movingItem);
+
   clearInterval(downInterval);
   downInterval = setInterval(() => {
     moveBlock('top', 1);
   }, duration);
 
   const BLOCKSlength = Object.entries(BLOCKS).length;
-  const randomNext = Object.entries(BLOCKS)[Math.floor(Math.random() * BLOCKSlength)];
-  movingItem.type = randomNext[0];
-  movingItem.top = 0;
-  movingItem.left = 4;
-  movingItem.direction = 0;
-  movingItemTmp = { ...movingItem };
-  renderBlocks();
+
+  if (isInit) {
+    // 첫블록 그리는거면 블록그리고 넥스트블록그림
+    const randomNext = Object.entries(BLOCKS)[Math.floor(Math.random() * BLOCKSlength)];
+    movingItem.type = randomNext[0];
+    movingItem.top = 0;
+    movingItem.left = 4;
+    movingItem.direction = 0;
+    movingItemTmp = { ...movingItem };
+    renderBlocks();
+
+    const randomMiniNext = Object.entries(BLOCKS)[Math.floor(Math.random() * BLOCKSlength)];
+    nextItem.type = randomMiniNext[0];
+    nextItem.top = 1;
+    nextItem.left = 1;
+    nextItem.direction = 0;
+    renderNextBlocks();
+
+    isInit = false;
+  } else {
+    // 그다음 부턴 블록은 랜덤없이 그리고 넥스트블록은 랜덤으로 그림
+    renderBlocks();
+    const randomMiniNext = Object.entries(BLOCKS)[Math.floor(Math.random() * BLOCKSlength)];
+    nextItem.type = randomMiniNext[0];
+    nextItem.top = 1;
+    nextItem.left = 1;
+    nextItem.direction = 0;
+    renderNextBlocks();
+  }
 }
 
 function init() {
@@ -159,6 +214,7 @@ function init() {
   generateNewBlock();
 }
 
+let isInit = true;
 init(); // 초기 게임 시작
 
 //이벤트 핸들링
@@ -191,5 +247,6 @@ document.addEventListener('keydown', e => {
 $retryButton.addEventListener('click', () => {
   $playboard.innerHTML = '';
   $gameover.style.display = 'none';
+  isInit = true;
   init();
 });
