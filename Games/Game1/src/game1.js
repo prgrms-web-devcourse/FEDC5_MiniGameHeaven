@@ -46,7 +46,7 @@ function createGame() {
     timeinterval = setInterval(() => {
       playTime.innerText = time;
       time++;
-      if (time == 10) {
+      if (time == 1) {
         activeCheat();
       }
     }, 1000);
@@ -94,7 +94,7 @@ function checkStatus() {
 
 function storeLocalStorage(time) {
   const storedHighScore = window.localStorage.getItem('highScore');
-  if (time < storedHighScore) {
+  if (!storedHighScore || time < storedHighScore) {
     window.localStorage.setItem('highScore', Number(time));
   }
 }
@@ -145,7 +145,7 @@ startButton.addEventListener('click', () => {
 });
 
 function activeCheat() {
-  const $cheatButton = $.createElement('div');
+  const $cheatButton = $.createElement('button');
   $cheatButton.textContent = 'Cheat!';
 
   $.querySelector('.wrap').appendChild($cheatButton);
