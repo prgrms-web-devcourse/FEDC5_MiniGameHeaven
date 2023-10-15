@@ -12,7 +12,7 @@ const MINIROWSCOLS = 5;
 
 // 변수
 let score = 0;
-let duration = 500;
+let duration = 500000;
 let downInterval;
 let movingItemTmp;
 const movingItem = {
@@ -159,8 +159,6 @@ function renderNextBlocks() {
 
 // 게임 재시작
 function generateNewBlock() {
-  console.log('generateNewBlock', nextItem, movingItem);
-
   clearInterval(downInterval);
   downInterval = setInterval(() => {
     moveBlock('top', 1);
@@ -246,6 +244,7 @@ document.addEventListener('keydown', e => {
 
 $retryButton.addEventListener('click', () => {
   $playboard.innerHTML = '';
+  $miniboard.innerHTML = '';
   $gameover.style.display = 'none';
   isInit = true;
   init();

@@ -14,6 +14,26 @@ li {
   list-style: none;
 }
 
+@media (min-width: 992px) {
+  .wrapper {
+    width: 50%;
+    margin: 0 auto;
+  }
+}
+/* 태블릿 */
+@media (max-width: 991px) {
+  .wrapper {
+    width: 70%;
+    margin: 0 auto;
+  }
+}
+/* 최대 575 : 모바일 */
+@media (max-width: 575px) {
+  .wrapper {
+    width: 100%;
+  }
+}
+
 .score {
   text-align: center;
   margin: 1rem;
@@ -24,7 +44,10 @@ li {
   display: flex;
 }
 .playboard {
-  width: 70%;
+  margin: 0 auto;
+}
+.miniboard {
+  margin: 0 auto;
 }
 .playboard > ul,
 .miniboard > ul {
@@ -52,9 +75,6 @@ li {
   height: 25px;
   border: 0.5px solid rgb(92, 92, 92);
   box-sizing: border-box;
-}
-.miniboard {
-  width: 30%;
 }
 
 /* 디자인시스템 */
