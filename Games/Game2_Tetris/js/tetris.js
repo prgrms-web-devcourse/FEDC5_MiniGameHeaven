@@ -31,6 +31,16 @@ const nextItem = {
 
 function showGameOver() {
   $gameover.style.display = 'flex';
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space' && $gameover.style.display == 'flex') {
+      $playboard.innerHTML = '';
+      $miniboard.innerHTML = '';
+      $gameover.style.display = 'none';
+      isInit = true;
+      init();
+      return;
+    }
+  });
   if (!localStorage.getItem('Tetris최고점수') || localStorage.getItem('Tetris최고점수') < score) {
     localStorage.setItem('Tetris최고점수', score);
   }
