@@ -5,6 +5,7 @@
 body {
   height: 100%;
   overflow: hidden;
+  background: #161b32;
 }
 ul {
   list-style: none;
@@ -33,12 +34,18 @@ li {
     width: 100%;
   }
 }
-
-.score {
+.scoreboard {
+  display: flex;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.score,
+.high {
+  width: 48%;
   text-align: center;
   margin: 1rem;
   font-size: 25px;
-  background-color: antiquewhite;
+  background: linear-gradient(to bottom, #53e1e3, #fdfffb, #e66fb2);
 }
 .gamezone {
   display: flex;
@@ -51,7 +58,7 @@ li {
 }
 .playboard > ul,
 .miniboard > ul {
-  border: 1px solid black;
+  border: 1px solid #49534f;
   box-sizing: border-box;
   width: 250px;
   margin: 0 auto; /*테트리스보드 중앙정렬 */
@@ -73,7 +80,7 @@ li {
   /* 각 한칸 */
   width: 25px;
   height: 25px;
-  border: 0.5px solid rgb(92, 92, 92);
+  border: 0.5px dashed #49534f;
   box-sizing: border-box;
 }
 
@@ -106,20 +113,49 @@ li {
 
 /* 블럭 색칠 */
 .tree {
-  background-color: darkgreen;
+  background-color: #5aae5a;
+  box-shadow: inset -1px -2px 2px 1px #3a7f3a;
+
+  border: 0.5px solid #49534f !important;
 }
 .square {
-  background-color: dodgerblue;
+  background-color: #7cb7fd;
+  box-shadow: inset -1px -2px 2px 1px #567fb0;
+
+  border: 0.5px solid #49534f !important;
 }
 .bar {
-  background-color: wheat;
+  background-color: #f2d982;
+  box-shadow: inset -1px -2px 2px 1px #ae9c5d;
+
+  border: 0.5px solid #49534f !important;
 }
 .zee {
-  background-color: sienna;
+  background-color: #c29384;
+  box-shadow: inset -1px -2px 2px 1px #8f6d62;
+
+  border: 0.5px solid #49534f !important;
 }
 .elLeft {
   background-color: lightpink;
+  border: 0.5px solid #49534f !important;
+  box-shadow: inset -1px -2px 2px 1px #9c616a;
 }
 .elRight {
-  background-color: slateblue;
+  background-color: #ae93e8;
+  box-shadow: inset -1px -2px 2px 1px #7a65a5;
+
+  border: 0.5px solid #49534f !important;
 }
+
+/* color System */
+/*
+161B32 남
+2B3843 진회색
+49534f 테두리
+53E1E3 하늘색
+E66FB2 핑크
+F4D4E8 연핑크
+FCC725 노랑
+FDFFFB 하양
+*/
