@@ -3,15 +3,6 @@ const imageContainer = $.querySelector('.wrap__imageContainer');
 const startButton = $.querySelector('.wrap__startButton');
 const gameCompleteText = $.querySelector('.wrap__gameCompleteText');
 const playTime = $.querySelector('.wrap__playTime');
-const highScore = $.querySelector('.highScore');
-
-(() => {
-  const storedHighScore = window.localStorage.getItem('highScore');
-  if (storedHighScore) {
-    // console.log(storedHighScore);
-    highScore.innerText = `최고 기록 ${String(storedHighScore)}`;
-  }
-})();
 
 const tileCount = 16;
 
@@ -89,13 +80,6 @@ function checkStatus() {
     gameCompleteText.style.display = 'block';
     isPlaying = false;
     clearInterval(timeinterval);
-  }
-}
-
-function storeLocalStorage(time) {
-  const storedHighScore = window.localStorage.getItem('highScore');
-  if (time < storedHighScore) {
-    window.localStorage.setItem('highScore', Number(time));
   }
 }
 
