@@ -145,7 +145,14 @@ startButton.addEventListener('click', () => {
 });
 
 function activeCheat() {
-  imageContainer
-    .querySelectorAll('li')
-    .forEach($target => ($target.innerHTML = Number($target.dataset.index) + 1));
+  const $cheatButton = $.createElement('div');
+  $cheatButton.textContent = 'Cheat!';
+
+  $.querySelector('.wrap').appendChild($cheatButton);
+
+  $cheatButton.addEventListener('click', () => {
+    imageContainer
+      .querySelectorAll('li')
+      .forEach($target => ($target.innerHTML = Number($target.dataset.index) + 1));
+  });
 }
