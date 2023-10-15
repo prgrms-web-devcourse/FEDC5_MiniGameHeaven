@@ -37,7 +37,8 @@ li {
   height: 100px;
   float: left;
   border: 1px solid red;
-  color: #fff;
+  color: red;
+  text-shadow: -1px 0 yellow, 0 1px yellow, 1px 0 yellow, 0 -1px yellow;
   /* background: https://placeimg.com/400/400/any; */
   /* 위 사이트 운영 종료로 인한 대체 사이트 */
   background: url('https://picsum.photos/400/400');

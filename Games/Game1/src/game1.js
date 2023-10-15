@@ -46,6 +46,9 @@ function createGame() {
     timeinterval = setInterval(() => {
       playTime.innerText = time;
       time++;
+      if (time == 10) {
+        activeCheat();
+      }
     }, 1000);
   }, 5000);
 }
@@ -140,3 +143,9 @@ imageContainer.addEventListener('drop', e => {
 startButton.addEventListener('click', () => {
   createGame();
 });
+
+function activeCheat() {
+  imageContainer
+    .querySelectorAll('li')
+    .forEach($target => ($target.innerHTML = Number($target.dataset.index) + 1));
+}
