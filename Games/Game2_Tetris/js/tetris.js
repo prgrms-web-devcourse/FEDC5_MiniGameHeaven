@@ -1,10 +1,15 @@
 import BLOCKS from './blocks.js';
+import UserList from './UserList.js';
+
 const $playboard = document.querySelector('.playboard > ul');
 const $miniboard = document.querySelector('.miniboard > ul');
-const $scoreboard = document.querySelector('.score');
+const $scoreboardHigh = document.querySelector('.high :nth-child(2)');
+const $scoreboardScoreScore = document.querySelector('.score :nth-child(2)');
 const $retryButton = document.querySelector('.gameover > button');
 const $gameover = document.querySelector('.gameover');
 
+const $userlist = document.querySelector('.userlist');
+new UserList({ $target: $userlist });
 // 보드판 칸수 세팅값
 const ROWS = 20;
 const COLS = 10;
@@ -38,7 +43,7 @@ function showGameOver() {
       $gameover.style.display = 'none';
       isInit = true;
       init();
-      return;
+      // return;
     }
   });
   if (!localStorage.getItem('Tetris최고점수') || localStorage.getItem('Tetris최고점수') < score) {
@@ -46,6 +51,7 @@ function showGameOver() {
   }
 }
 
+// 한줄 완성 확인 후 점수++
 function checkMatch() {
   const childNodes = $playboard.childNodes;
   childNodes.forEach(child => {
@@ -59,7 +65,7 @@ function checkMatch() {
       child.remove(); //?
       makeNewLine($playboard, ROWS, COLS);
       score += 1;
-      $scoreboard.textContent = score;
+      $scoreboardScoreScore.textContent = score;
     }
   });
   movingItem.type = nextItem.type;
@@ -78,10 +84,14 @@ function moveBlock(moveType, amount) {
 // 블록 이동 중지
 function seizeBlock() {
   const movingBlocks = document.querySelectorAll('.moving');
+  console.log(movingBlocks);
+
   movingBlocks.forEach(movingBlock => {
+    console.log(movingBlock);
     // 이전 블록 위치에 moving 클래스를 제거
-    movingBlock.classList.remove('moving');
     movingBlock.classList.add('seized');
+    movingBlock.classList.remove('moving');
+    console.log(movingBlock);
   });
   checkMatch();
 }
@@ -117,7 +127,7 @@ function renderBlocks(moveType = '') {
       if (moveType === 'retry') {
         showGameOver();
         clearInterval(downInterval);
-        return; // 게임오버인 경우이니까 종료시켜야 한다.
+        return true; // 게임오버인 경우이니까 종료시켜야 한다.
       }
       setTimeout(() => {
         renderBlocks('retry');
@@ -207,8 +217,8 @@ function generateNewBlock() {
 }
 
 function init() {
-  if (!localStorage.getItem('Tetris최고점수')) {
-    localStorage.getItem('Tetris최고점수', 0);
+  if (localStorage.getItem('Tetris최고점수')) {
+    $scoreboardHigh.innerHTML = localStorage.getItem('Tetris최고점수');
   }
   function makeBoard($target, row, col) {
     for (let i = 0; i < row; i++) {
