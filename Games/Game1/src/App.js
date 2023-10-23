@@ -1,11 +1,9 @@
 import Header from './Header.js';
 import Board from './board.js';
+import GameInit from './gameInit.js';
+import { imageContainer } from './utils.js';
 
 const $ = document;
-const imageContainer = $.querySelector('.wrap__imageContainer');
-const startButton = $.querySelector('.wrap__startButton');
-const gameCompleteText = $.querySelector('.wrap__gameCompleteText');
-const playTime = $.querySelector('.wrap__playTime');
 
 export default function App({ $target }) {
   console.log(`hello game1`);
@@ -21,6 +19,8 @@ export default function App({ $target }) {
 
   // if 버튼이 눌리면
   const board = new Board({ $target: imageContainer, initialState: {} });
+  console.log(board.state);
+  const gameInit = new GameInit({ $target: imageContainer, initialState: board.state });
 
   this.render = () => {};
 }

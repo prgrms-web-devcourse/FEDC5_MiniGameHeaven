@@ -1,6 +1,7 @@
 const $ = document;
 export default function Board({ $target, initialState }) {
   this.state = initialState;
+
   this.setState = nextState => {
     this.state = nextState;
     this.render();
@@ -21,11 +22,13 @@ export default function Board({ $target, initialState }) {
     return tempArray;
   }
 
+  const temp = createImageTiles();
+
   this.render = () => {
-    const temp = createImageTiles();
     temp.forEach(tile => {
       $target.appendChild(tile);
     });
   };
+  this.setState(temp);
   this.render();
 }
