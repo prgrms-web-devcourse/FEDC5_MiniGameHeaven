@@ -2,11 +2,13 @@ const $ = document;
 
 export const FOUR_X_FOUR_NUM = 16;
 export const FIVE_X_FIVE_NUM = 25;
+export const PUZZLE_HIGH_SCORE_KEY = 'PuzzleHighScore';
 export const imageContainer = $.querySelector('.wrap__imageContainer');
 export const startButton = $.querySelector('.wrap__startButton');
 export const gameCompleteText = $.querySelector('.wrap__gameCompleteText');
 export const playTime = $.querySelector('.wrap__playTime');
 export const stopButton = $.querySelector('.wrap__stopButton');
+export const highScore = $.querySelector('.highScore');
 
 export function imageShuffle(array) {
   let index = array.length - 1;

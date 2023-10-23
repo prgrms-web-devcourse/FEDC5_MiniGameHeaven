@@ -1,6 +1,7 @@
+import { PUZZLE_HIGH_SCORE_KEY } from './utils.js';
+
 const $ = document;
 const storage = window.localStorage;
-const PUZZLE_HIGH_SCORE_KEY = 'PuzzleHighScore';
 
 export const setItem = value => {
   try {

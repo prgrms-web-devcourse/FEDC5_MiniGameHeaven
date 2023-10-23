@@ -1,4 +1,4 @@
-import { getItem } from './Storage.js';
+import { getItem } from './storage.js';
 const $ = document;
 
 export default function Header({ $target }) {
@@ -8,6 +8,8 @@ export default function Header({ $target }) {
   $target.prepend($highScore);
   const storedHighScore = getItem();
   if (storedHighScore) {
-    $highScore.innerText = `최고 기록 ${String(storedHighScore)}`;
+    $highScore.innerText = `최단 기록 ${String(storedHighScore)}초`;
+  } else {
+    $highScore.innerText = `최단 기록 X`;
   }
 }

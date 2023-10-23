@@ -10,6 +10,7 @@ import {
   playTime,
   activeCheat,
 } from './utils.js';
+import { getItem, setItem } from './storage.js';
 
 const $ = document;
 
@@ -35,7 +36,9 @@ export default function App({ $target }) {
     });
     if (unMatchedList.length === 0) {
       //게임 종료 조건
-      // storeLocalStorage(time);
+      if (Number(getItem()) > time) {
+        setItem(time);
+      }
       gameCompleteText.style.display = 'block';
       this.setState({ ...this.state, isPlaying: false });
       console.log(this.state);
