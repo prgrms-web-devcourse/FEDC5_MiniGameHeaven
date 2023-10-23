@@ -7,11 +7,7 @@ export default function GameInit({ $target, initialState }) {
 
   this.setState = nextState => {
     this.state = nextState;
-    this.render();
   };
-
-  const temp = imageShuffle(this.state);
-  console.log(temp);
 
   this.render = () => {
     setTimeout(() => {
@@ -19,7 +15,7 @@ export default function GameInit({ $target, initialState }) {
       imageShuffle(this.state).forEach(tile => {
         $target.appendChild(tile);
       });
-    }, 3000);
+    }, 6000);
   };
   this.render();
 }

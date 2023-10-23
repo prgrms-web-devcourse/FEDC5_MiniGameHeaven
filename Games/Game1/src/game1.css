@@ -52,6 +52,17 @@ li {
   margin-top: 1rem;
 }
 
+.wrap__startButton:hover {
+  background: #1b2b4f;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  margin-top: 1rem;
+}
+
+.wrap__stopButton {
+}
+
 .wrap__gameCompleteText {
   position: absolute;
   font-size: 45px;

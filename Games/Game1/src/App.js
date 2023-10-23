@@ -1,6 +1,7 @@
-import Header from './Header.js';
+import Header from './header.js';
 import Board from './board.js';
 import GameInit from './gameInit.js';
+import EventParser from './eventParser.js';
 import { imageContainer, startButton, stopButton, playTime } from './utils.js';
 
 const $ = document;
@@ -8,7 +9,10 @@ const $ = document;
 export default function App({ $target }) {
   console.log(`hello game1`);
 
-  this.state = {};
+  this.state = {
+    isPlaying: false,
+    boardInfo: [],
+  };
 
   this.setState = nextState => {
     this.state = nextState;
@@ -19,14 +23,22 @@ export default function App({ $target }) {
   // if 버튼이 눌리면
   let timeinterval = null;
   let time = 0;
+
+  // 항상 전체 배열 state는 app.js에서 가지고 있도록
   this.init = () => {
     const board = new Board({ $target: imageContainer, initialState: {} });
-    console.log(board.state);
+    // console.log(board.state);
     const gameInit = new GameInit({ $target: imageContainer, initialState: board.state });
-    this.setState = gameInit.state;
-    board.setState = this.state;
+    this.setState({ isPlaying: true, boardInfo: [gameInit.state] });
+    board.setState(this.state.boardInfo);
+
+    const eventParser = new EventParser({
+      $target: imageContainer,
+      isPlaying: this.state.isPlaying,
+    });
 
     timeinterval = setInterval(() => {
+      console.log(this.state);
       playTime.innerText = time;
       time++;
     }, 1000);
@@ -38,7 +50,7 @@ export default function App({ $target }) {
     this.init();
   });
 
-  console.log(startButton, stopButton);
+  // console.log(startButton, stopButton);
   stopButton.addEventListener('click', () => {
     if (stopButton.innerText === 'Stop') {
       stopButton.innerText = 'Paused';
@@ -46,6 +58,7 @@ export default function App({ $target }) {
     } else {
       stopButton.innerText = 'Stop';
       timeinterval = setInterval(() => {
+        console.log(this.state);
         playTime.innerText = time;
         time++;
       }, 1000);

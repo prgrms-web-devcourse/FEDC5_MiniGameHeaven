@@ -1,4 +1,6 @@
+import { FOUR_X_FOUR_NUM } from './utils.js';
 const $ = document;
+
 export default function Board({ $target, initialState }) {
   this.state = initialState;
 
@@ -9,7 +11,7 @@ export default function Board({ $target, initialState }) {
 
   function createImageTiles() {
     const tempArray = [];
-    Array(16)
+    Array(FOUR_X_FOUR_NUM)
       .fill()
       .forEach((_, index) => {
         const li = $.createElement('li');
