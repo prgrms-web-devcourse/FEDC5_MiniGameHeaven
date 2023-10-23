@@ -71,6 +71,7 @@ function imageShuffle(array) {
 
 function checkStatus() {
   const currentList = [...imageContainer.children];
+  console.log(currentList);
   const unMatchedList = currentList.filter((li, index) => {
     return Number(li.getAttribute('data-index')) !== index;
   });

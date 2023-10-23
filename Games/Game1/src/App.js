@@ -2,7 +2,7 @@ import Header from './header.js';
 import Board from './board.js';
 import GameInit from './gameInit.js';
 import EventParser from './eventParser.js';
-import { imageContainer, startButton, stopButton, playTime } from './utils.js';
+import { imageContainer, gameCompleteText, startButton, stopButton, playTime } from './utils.js';
 
 const $ = document;
 
@@ -19,6 +19,22 @@ export default function App({ $target }) {
   };
 
   new Header({ $target });
+
+  const checkStatus = () => {
+    // const currentList = this.state.boardInfo[0];//state방식
+    const currentList = [...imageContainer.children];
+    const unMatchedList = currentList.filter((li, index) => {
+      return Number(li.getAttribute('data-index')) !== index;
+    });
+    if (unMatchedList.length === 0) {
+      //게임 종료 조건
+      // storeLocalStorage(time);
+      gameCompleteText.style.display = 'block';
+      this.setState({ ...this.state, isPlaying: false });
+      clearInterval(timeinterval);
+    }
+    console.log(unMatchedList);
+  };
 
   // if 버튼이 눌리면
   let timeinterval = null;
@@ -37,16 +53,23 @@ export default function App({ $target }) {
       isPlaying: this.state.isPlaying,
     });
 
+    // setTimeout(() => {
     timeinterval = setInterval(() => {
+      console.log(time);
       console.log(this.state);
+      if (time > 5) {
+        checkStatus();
+      }
       playTime.innerText = time;
       time++;
     }, 1000);
+    // }, 5000);
 
     console.log(board.state);
   };
 
   startButton.addEventListener('click', () => {
+    playTime.innerText = '시작!!';
     this.init();
   });
 
@@ -59,6 +82,7 @@ export default function App({ $target }) {
       stopButton.innerText = 'Stop';
       timeinterval = setInterval(() => {
         console.log(this.state);
+        checkStatus();
         playTime.innerText = time;
         time++;
       }, 1000);
