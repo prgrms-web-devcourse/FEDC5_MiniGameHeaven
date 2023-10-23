@@ -19,7 +19,7 @@ export default function GameInit({ $target, initialState }) {
       imageShuffle(this.state).forEach(tile => {
         $target.appendChild(tile);
       });
-    }, 1000);
+    }, 3000);
   };
   this.render();
 }

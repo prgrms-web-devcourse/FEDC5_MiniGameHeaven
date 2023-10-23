@@ -3,6 +3,7 @@ export const imageContainer = $.querySelector('.wrap__imageContainer');
 export const startButton = $.querySelector('.wrap__startButton');
 export const gameCompleteText = $.querySelector('.wrap__gameCompleteText');
 export const playTime = $.querySelector('.wrap__playTime');
+export const stopButton = $.querySelector('.wrap__StopButton');
 
 export function imageShuffle(array) {
   let index = array.length - 1;
@@ -26,4 +27,17 @@ export function checkStatus() {
     isPlaying = false;
     clearInterval(timeinterval);
   }
+}
+
+export function activeCheat() {
+  const $cheatButton = $.createElement('div');
+  $cheatButton.textContent = 'Cheat!';
+
+  $.querySelector('.wrap').appendChild($cheatButton);
+
+  $cheatButton.addEventListener('click', () => {
+    imageContainer
+      .querySelectorAll('li')
+      .forEach($target => ($target.innerHTML = Number($target.dataset.index) + 1));
+  });
 }
