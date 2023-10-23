@@ -2,7 +2,14 @@ import Header from './header.js';
 import Board from './board.js';
 import GameInit from './gameInit.js';
 import EventParser from './eventParser.js';
-import { imageContainer, gameCompleteText, startButton, stopButton, playTime } from './utils.js';
+import {
+  imageContainer,
+  gameCompleteText,
+  startButton,
+  stopButton,
+  playTime,
+  activeCheat,
+} from './utils.js';
 
 const $ = document;
 
@@ -31,6 +38,7 @@ export default function App({ $target }) {
       // storeLocalStorage(time);
       gameCompleteText.style.display = 'block';
       this.setState({ ...this.state, isPlaying: false });
+      console.log(this.state);
       clearInterval(timeinterval);
     }
     console.log(unMatchedList);
@@ -48,17 +56,21 @@ export default function App({ $target }) {
     this.setState({ isPlaying: true, boardInfo: [gameInit.state] });
     board.setState(this.state.boardInfo);
 
-    const eventParser = new EventParser({
-      $target: imageContainer,
-      isPlaying: this.state.isPlaying,
-    });
-
     // setTimeout(() => {
     timeinterval = setInterval(() => {
       console.log(time);
       console.log(this.state);
       if (time > 5) {
         checkStatus();
+      }
+      if (time === 5) {
+        const eventParser = new EventParser({
+          $target: imageContainer,
+          isPlaying: this.state.isPlaying,
+        });
+      }
+      if (time === 60) {
+        activeCheat();
       }
       playTime.innerText = time;
       time++;
@@ -74,20 +86,21 @@ export default function App({ $target }) {
   });
 
   // console.log(startButton, stopButton);
-  stopButton.addEventListener('click', () => {
-    if (stopButton.innerText === 'Stop') {
-      stopButton.innerText = 'Paused';
-      clearInterval(timeinterval);
-    } else {
-      stopButton.innerText = 'Stop';
-      timeinterval = setInterval(() => {
-        console.log(this.state);
-        checkStatus();
-        playTime.innerText = time;
-        time++;
-      }, 1000);
-    }
-  });
+  // 일단 주석처리
+  // stopButton.addEventListener('click', () => {
+  //   if (stopButton.innerText === 'Stop') {
+  //     stopButton.innerText = 'Paused';
+  //     clearInterval(timeinterval);
+  //   } else {
+  //     stopButton.innerText = 'Stop';
+  //     timeinterval = setInterval(() => {
+  //       console.log(this.state);
+  //       checkStatus();
+  //       playTime.innerText = time;
+  //       time++;
+  //     }, 1000);
+  //   }
+  // });
 
   // 체크 스테이터스는 상태가 변할때마다 체크해줘야한다.
   // 관건은 어디서 어떻게 가지고 오냐가 관건.
