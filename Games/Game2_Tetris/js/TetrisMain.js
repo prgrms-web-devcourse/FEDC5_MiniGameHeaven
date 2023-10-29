@@ -96,17 +96,7 @@ export default function Tetris({ $target, initialState }) {
     movingItem.left = 4;
     generateNewBlock();
     if (tmp) {
-      // makeNewLine($playboardUl, ROWS, COLS);
-      const ul = document.createElement('ul');
-      const li = document.createElement('li');
-      for (let j = 0; j < COLS; j++) {
-        const cell = document.createElement('li');
-        cell.style.border = '1px solid red';
-
-        ul.prepend(cell);
-      }
-      li.prepend(ul);
-      $playboardUl.prepend(li);
+      makeNewLine($playboardUl, ROWS, COLS);
     }
   }
 
