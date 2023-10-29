@@ -2,8 +2,6 @@ import { ROWS, COLS, MINIROWSCOLS } from './utils/rowsAndCols.js';
 import BLOCKS from './utils/blocks.js';
 
 export default function Tetris({ $target, initialState }) {
-  // $target = .gamezone
-  let tmp = 0;
   this.state = initialState;
 
   this.setState = nextState => {
@@ -16,6 +14,10 @@ export default function Tetris({ $target, initialState }) {
   const $sideboard = document.createElement('div');
   $sideboard.className = 'sideboard';
   $target.appendChild($sideboard);
+  const $pauseButton = document.createElement('img');
+  $pauseButton.className = 'pause_button';
+  $pauseButton.src = '././assets/pause.png';
+  $target.appendChild($pauseButton);
 
   this.render = () => {
     $playboard.innerHTML = `
@@ -28,12 +30,16 @@ export default function Tetris({ $target, initialState }) {
       </div>
       <div class="userlist"></div>
     `;
+    $pauseButton.innerHTML = 'PAUSE';
+    $pauseButton.addEventListener('click', e => {
+      blockGame('pause');
+    });
   };
   this.render();
 
   // 변수
   let score = 0;
-  let duration = 500000;
+  let duration = 1000;
   let downInterval;
   let movingItemTmp;
   const movingItem = {
@@ -52,21 +58,48 @@ export default function Tetris({ $target, initialState }) {
   const $scoreboardHigh = document.querySelector('.high_score');
   const $scoreboardNow = document.querySelector('.now_score');
 
-  function showGameOver() {
-    const $gameover = document.querySelector('.gameover');
-    $gameover.style.display = 'flex';
-    document.addEventListener('keydown', e => {
-      if (e.code === 'Space' && $gameover.style.display == 'flex') {
+  function blockGame(type = '') {
+    const $blockPage = document.querySelector('.block_page');
+    $blockPage.style.display = 'flex';
+    const $span = document.querySelector('.block_page span');
+    const $button = document.querySelector('.block_page button');
+    if (type === 'gameover') {
+      $span.innerHTML = '게임종료';
+      $button.innerHTML = '다시 시작';
+      document.addEventListener('keydown', e => {
+        if (e.code === 'Space' && $blockPage.style.display === 'flex') {
+          $playboardUl.innerHTML = '';
+          $miniboardUl.innerHTML = '';
+          $blockPage.style.display = 'none';
+          isInit = true;
+          init();
+        }
+      });
+      $button.addEventListener('click', e => {
         $playboardUl.innerHTML = '';
         $miniboardUl.innerHTML = '';
-        $gameover.style.display = 'none';
+        $blockPage.style.display = 'none';
         isInit = true;
         init();
-        // return;
+      });
+      if (
+        !localStorage.getItem('Tetris최고점수') ||
+        localStorage.getItem('Tetris최고점수') < score
+      ) {
+        localStorage.setItem('Tetris최고점수', score);
       }
-    });
-    if (!localStorage.getItem('Tetris최고점수') || localStorage.getItem('Tetris최고점수') < score) {
-      localStorage.setItem('Tetris최고점수', score);
+    } else if (type === 'pause') {
+      clearInterval(downInterval);
+      $span.innerHTML = '게임 일시 정지';
+      $button.innerHTML = '이어서 하기';
+
+      $button.addEventListener('click', e => {
+        clearInterval(downInterval);
+        downInterval = setInterval(() => {
+          moveBlock('top', 1);
+        }, duration);
+        $blockPage.style.display = 'none';
+      });
     }
   }
 
@@ -170,7 +203,7 @@ export default function Tetris({ $target, initialState }) {
         movingItemTmp = { ...movingItem }; // 이전 movingItem 으로 원상복구
         // renderBlocks(); // 재귀로 바로 부르면 Maximum call stack size exceeded
         if (moveType === 'retry') {
-          showGameOver();
+          blockGame('gameover');
           clearInterval(downInterval);
           return true; // 게임오버인 경우이니까 종료시켜야 한다.
         }
@@ -248,8 +281,6 @@ export default function Tetris({ $target, initialState }) {
 
   function init() {
     $scoreboardNow.textContent = 0;
-    const $scoreboardHigh = document.querySelector('.high_score');
-
     if (localStorage.getItem('Tetris최고점수')) {
       $scoreboardHigh.innerHTML = localStorage.getItem('Tetris최고점수');
     }
@@ -270,28 +301,32 @@ export default function Tetris({ $target, initialState }) {
 
   //이벤트 핸들링
   document.addEventListener('keydown', e => {
-    switch (e.code) {
-      case 'ArrowUp': // 위로 키 -> 블록 회전
-        movingItemTmp.direction = (movingItemTmp.direction + 1) % 4;
-        renderBlocks();
-        break;
+    const $blockPage = document.querySelector('.block_page');
 
-      case 'ArrowDown':
-        moveBlock('top', 1);
-        break;
+    if ($blockPage.style.display !== 'flex') {
+      switch (e.code) {
+        case 'ArrowUp': // 위로 키 -> 블록 회전
+          movingItemTmp.direction = (movingItemTmp.direction + 1) % 4;
+          renderBlocks();
+          break;
 
-      case 'ArrowRight': // ->
-        moveBlock('left', 1);
-        break;
+        case 'ArrowDown':
+          moveBlock('top', 1);
+          break;
 
-      case 'ArrowLeft': // <-
-        moveBlock('left', -1);
-        break;
-      case 'Space':
-        dropBlock();
-        break;
-      default:
-        break;
+        case 'ArrowRight': // ->
+          moveBlock('left', 1);
+          break;
+
+        case 'ArrowLeft': // <-
+          moveBlock('left', -1);
+          break;
+        case 'Space':
+          dropBlock();
+          break;
+        default:
+          break;
+      }
     }
   });
 
