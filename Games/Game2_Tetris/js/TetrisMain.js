@@ -72,9 +72,12 @@ export default function Tetris({ $target, initialState }) {
 
   // 한줄 완성 확인 후 점수++
   function checkMatch() {
-    let tmp = 0;
+    let matchedLineCnt = 0;
     const childNodes = $playboardUl.childNodes;
+
+    let removeChild = [];
     childNodes.forEach(child => {
+      console.log(child);
       let matched = true;
       child.children[0].childNodes.forEach(li => {
         if (!li.classList.contains('seized')) {
@@ -82,20 +85,22 @@ export default function Tetris({ $target, initialState }) {
         }
       });
       if (matched) {
-        child.remove(); //?
-        tmp = 1;
-        // makeNewLine($playboardUl, ROWS, COLS);
+        removeChild.push(child);
+        matchedLineCnt += 1;
         score += 1;
         $scoreboardNow.textContent = score;
-        tmp = 1;
       }
+    });
+
+    removeChild.forEach(rchild => {
+      rchild.remove();
     });
     movingItem.type = nextItem.type;
     movingItem.direction = 0;
     movingItem.top = 0;
     movingItem.left = 4;
     generateNewBlock();
-    if (tmp) {
+    for (let i = 0; i < matchedLineCnt; i++) {
       makeNewLine($playboardUl, ROWS, COLS);
     }
   }
