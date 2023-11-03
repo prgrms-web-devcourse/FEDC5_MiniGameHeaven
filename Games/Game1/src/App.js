@@ -36,7 +36,8 @@ export default function App({ $target }) {
     });
     if (unMatchedList.length === 0) {
       //게임 종료 조건
-      if (Number(getItem()) > time) {
+      const storedRecord = getItem();
+      if (storedRecord > time) {
         setItem(time);
       }
       gameCompleteText.style.display = 'block';
@@ -72,38 +73,42 @@ export default function App({ $target }) {
           isPlaying: this.state.isPlaying,
         });
       }
-      if (time === 60) {
+      if (time === 105) {
         activeCheat();
       }
       playTime.innerText = time;
       time++;
     }, 1000);
-    // }, 5000);
 
     console.log(board.state);
   };
 
   startButton.addEventListener('click', () => {
+    time = 0;
+    imageContainer.innerHTML = '';
+    clearInterval(timeinterval);
     playTime.innerText = '시작!!';
     this.init();
   });
 
   // console.log(startButton, stopButton);
   // 일단 주석처리
-  // stopButton.addEventListener('click', () => {
-  //   if (stopButton.innerText === 'Stop') {
-  //     stopButton.innerText = 'Paused';
-  //     clearInterval(timeinterval);
-  //   } else {
-  //     stopButton.innerText = 'Stop';
-  //     timeinterval = setInterval(() => {
-  //       console.log(this.state);
-  //       checkStatus();
-  //       playTime.innerText = time;
-  //       time++;
-  //     }, 1000);
-  //   }
-  // });
+  stopButton.addEventListener('click', () => {
+    if (time > 5) {
+      if (stopButton.innerText === 'Stop') {
+        stopButton.innerText = 'Paused';
+        clearInterval(timeinterval);
+      } else {
+        stopButton.innerText = 'Stop';
+        timeinterval = setInterval(() => {
+          console.log(this.state);
+          checkStatus();
+          playTime.innerText = time;
+          time++;
+        }, 1000);
+      }
+    }
+  });
 
   // 체크 스테이터스는 상태가 변할때마다 체크해줘야한다.
   // 관건은 어디서 어떻게 가지고 오냐가 관건.

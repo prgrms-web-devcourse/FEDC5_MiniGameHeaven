@@ -15,7 +15,7 @@ export const getItem = () => {
   try {
     const storedValue = storage.getItem(PUZZLE_HIGH_SCORE_KEY);
     if (!storedValue) {
-      return 0;
+      return 9999;
     } else {
       return storedValue;
     }

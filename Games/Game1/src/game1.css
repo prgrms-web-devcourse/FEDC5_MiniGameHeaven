@@ -41,7 +41,8 @@ li {
   text-shadow: -1px 0 yellow, 0 1px yellow, 1px 0 yellow, 0 -1px yellow;
   /* background: https://placeimg.com/400/400/any; */
   /* 위 사이트 운영 종료로 인한 대체 사이트 */
-  background: url('https://picsum.photos/400/400');
+  /* background: url('https://picsum.photos/400/400'); */
+  background: url(https://fastly.picsum.photos/id/1008/400/400.jpg?hmac=8q3u12YLnjF1U6E4biXcU0jsaif1PeLQQLnUBeMnSi8);
 }
 
 .wrap__startButton {
@@ -60,8 +61,21 @@ li {
   margin-top: 1rem;
 }
 
-/* .wrap__stopButton {
-} */
+.wrap__stopButton {
+  background: #cb2c0c;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  margin-top: 1rem;
+}
+
+.wrap__stopButton:hover {
+  background: red;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  margin-top: 1rem;
+}
 
 .wrap__gameCompleteText {
   position: absolute;
@@ -70,6 +84,11 @@ li {
   text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
   /* 완료 시 나오는 글자이므로 default는 display: none으로 숨김처리 */
   display: none;
+}
+
+.wrap__imageContainer {
+  border: 1px solid;
+  border-radius: 1px;
 }
 
 .list0 {
