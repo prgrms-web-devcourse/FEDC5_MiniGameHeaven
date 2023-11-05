@@ -26,8 +26,6 @@ export function checkStatus() {
     return Number(li.getAttribute('data-index')) !== index;
   });
   if (unMatchedList.length === 0) {
-    //게임 종료 조건
-    // storeLocalStorage(time);
     gameCompleteText.style.display = 'block';
     isPlaying = false;
     clearInterval(timeinterval);

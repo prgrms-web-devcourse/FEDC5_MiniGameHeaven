@@ -19,7 +19,6 @@ export default function EventParser({ $target, isPlaying }) {
 
   $target.addEventListener('dragover', e => {
     e.preventDefault();
-    //   console.log('over');
   });
 
   $target.addEventListener('drop', e => {
@@ -27,7 +26,6 @@ export default function EventParser({ $target, isPlaying }) {
       return;
     }
     const $object = e.target;
-    //   console.log({ $object });
 
     if ($object.className !== dragged.class) {
       let originPlace;
