@@ -19,6 +19,8 @@ export default function App({ $target }) {
 
   this.state = {
     isPlaying: false,
+    isPaused: false, // 현재 멈춰있는지 확인하기 위해서
+    isPausedChecker: false, // 게임을 한번이라도 멈췄다면 기록에 포함되지 않음
     boardInfo: [],
   };
 
@@ -26,11 +28,13 @@ export default function App({ $target }) {
     this.state = nextState;
   };
 
-  new Header({ $target });
+  const header = new Header({ $target });
 
   const checkStatus = () => {
-    // const currentList = this.state.boardInfo[0];//state방식
-    const currentList = [...imageContainer.children];
+    // const currentList = this.state.boardInfo; //state방식 -> setState의 문제로 잠시 보류
+    const currentList = [...imageContainer.children]; //li를 긁어오는 방식
+    console.log(currentList, this.state.boardInfo);
+
     const unMatchedList = currentList.filter((li, index) => {
       return Number(li.getAttribute('data-index')) !== index;
     });
@@ -39,6 +43,7 @@ export default function App({ $target }) {
       const storedRecord = getItem();
       if (storedRecord > time) {
         setItem(time);
+        header.render();
       }
       gameCompleteText.style.display = 'block';
       this.setState({ ...this.state, isPlaying: false });
@@ -57,7 +62,8 @@ export default function App({ $target }) {
     const board = new Board({ $target: imageContainer, initialState: {} });
     // console.log(board.state);
     const gameInit = new GameInit({ $target: imageContainer, initialState: board.state });
-    this.setState({ isPlaying: true, boardInfo: [gameInit.state] });
+    // 아 근데 얘를 없애면 board가 안바뀐다..
+    this.setState({ isPlaying: true, boardInfo: gameInit.state });
     board.setState(this.state.boardInfo);
 
     // setTimeout(() => {
@@ -73,7 +79,7 @@ export default function App({ $target }) {
           isPlaying: this.state.isPlaying,
         });
       }
-      if (time === 105) {
+      if (time === 6) {
         activeCheat();
       }
       playTime.innerText = time;
