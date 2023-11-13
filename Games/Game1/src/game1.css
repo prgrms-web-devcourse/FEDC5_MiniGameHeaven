@@ -1,0 +1,157 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.highScore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+}
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.wrap__playTime {
+  font-size: 3rem;
+  margin-top: 2rem;
+  color: #3b5998;
+}
+
+ul {
+  margin-top: 1rem;
+  list-style: none;
+  border: 2px solid #3b5998;
+  display: grid;
+  /* 총 16개의 li를 한 줄당 4개씩 배치하는 코드 */
+  grid-template-columns: repeat(4, 1fr);
+}
+
+li {
+  width: 100px;
+  height: 100px;
+  float: left;
+  border: 1px solid red;
+  color: red;
+  text-shadow: -1px 0 yellow, 0 1px yellow, 1px 0 yellow, 0 -1px yellow;
+  /* background: https://placeimg.com/400/400/any; */
+  /* 위 사이트 운영 종료로 인한 대체 사이트 */
+  /* background: url('https://picsum.photos/400/400'); */
+  background: url(https://fastly.picsum.photos/id/1008/400/400.jpg?hmac=8q3u12YLnjF1U6E4biXcU0jsaif1PeLQQLnUBeMnSi8);
+}
+
+.wrap__startButton {
+  background: #3b5998;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  margin-top: 1rem;
+}
+
+.wrap__startButton:hover {
+  background: #1b2b4f;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  margin-top: 1rem;
+}
+
+.wrap__stopButton {
+  background: #cb2c0c;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  margin-top: 1rem;
+}
+
+.wrap__stopButton:hover {
+  background: red;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  margin-top: 1rem;
+}
+
+.wrap__gameCompleteText {
+  position: absolute;
+  font-size: 45px;
+  color: #67c23a;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+  /* 완료 시 나오는 글자이므로 default는 display: none으로 숨김처리 */
+  display: none;
+}
+
+.wrap__imageContainer {
+  border: 1px solid;
+  border-radius: 1px;
+}
+
+.list0 {
+  background-position-x: 0px;
+  background-position-y: 0px;
+}
+.list1 {
+  background-position-x: -100px;
+  background-position-y: 0px;
+}
+.list2 {
+  background-position-x: -200px;
+  background-position-y: 0px;
+}
+.list3 {
+  background-position-x: -300px;
+  background-position-y: 0px;
+}
+.list4 {
+  background-position-x: 0px;
+  background-position-y: -100px;
+}
+.list5 {
+  background-position-x: -100px;
+  background-position-y: -100px;
+}
+.list6 {
+  background-position-x: -200px;
+  background-position-y: -100px;
+}
+.list7 {
+  background-position-x: -300px;
+  background-position-y: -100px;
+}
+.list8 {
+  background-position-x: 0px;
+  background-position-y: -200px;
+}
+.list9 {
+  background-position-x: -100px;
+  background-position-y: -200px;
+}
+.list10 {
+  background-position-x: -200px;
+  background-position-y: -200px;
+}
+.list11 {
+  background-position-x: -300px;
+  background-position-y: -200px;
+}
+.list12 {
+  background-position-x: 0px;
+  background-position-y: -300px;
+}
+.list13 {
+  background-position-x: -100px;
+  background-position-y: -300px;
+}
+.list14 {
+  background-position-x: -200px;
+  background-position-y: -300px;
+}
+.list15 {
+  background-position-x: -300px;
+  background-position-y: -300px;
+}
