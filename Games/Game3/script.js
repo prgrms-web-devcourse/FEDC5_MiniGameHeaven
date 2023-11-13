@@ -1,6 +1,7 @@
 import { getDinoRect, setDinoLose, setupDino, updateDino } from './dino.js';
 import { updateCactus, setupCactus, getCactusRects } from './cactus.js';
 import { setupGround, updateGround } from './ground.js';
+import { getItem, setItem } from './storage.js';
 
 const WORLD_WIDTH = 100;
 const WORLD_HEIGHT = 30;
@@ -8,7 +9,10 @@ const SPEED_SCALE_INCREASE = 0.00001;
 
 const $world = document.querySelector('[data-world]');
 const $score = document.querySelector('[data-score]');
+const $topScore = document.querySelector('[data-topScore]');
 const $startScreen = document.querySelector('[data-start-screen]');
+
+$topScore.textContent = getItem('score', 0);
 
 setPixelToWorldScale();
 window.addEventListener('resize', setPixelToWorldScale);
@@ -18,13 +22,18 @@ let lastTime;
 let speedScale;
 let score;
 
+// 1프레임마다 호출되는 함수
 function update(time) {
+  // time 인자는 requestAnimationFrame 함수가 실행되기 시작한 이후의 시간을 받아옴
+
   if (lastTime == null) {
     lastTime = time;
     window.requestAnimationFrame(update);
     return;
   }
 
+  // 현재 프레임과 이전 프레임간의 시간간격
+  // (애니메이션이 시작한지 몇초가 흘렀는지 확인 가능)
   const delta = time - lastTime;
 
   updateGround(delta, speedScale);
@@ -65,6 +74,7 @@ function handleStart() {
   lastTime = null;
   speedScale = 1;
   score = 0;
+
   setupGround();
   setupDino();
   setupCactus();
@@ -74,16 +84,31 @@ function handleStart() {
 
 function handleLose() {
   setDinoLose();
+  settingScore();
+
   setTimeout(() => {
     document.addEventListener('keydown', handleStart, { once: true });
     $startScreen.classList.remove('hide');
   }, 100);
 }
 
+// 로컬스토리에 저장된 스코어와 현재 스코어를 비교해 더 높은 값으로 로컬스토리지 업데이트
+function settingScore() {
+  const currentScore = Math.floor(score);
+  let prevScore = 0;
+
+  prevScore = getItem('score', 0);
+  if (currentScore > prevScore) {
+    setItem('score', currentScore);
+    $topScore.textContent = getItem('score', 0);
+  }
+}
+
+// window의 크기비율에 따라 world의 사이즈 조정
 function setPixelToWorldScale() {
   let worldToPixelScale;
 
-  // window의 크기비율에 따라 world의 사이즈 조정
+  // window 가로세로의 비율이 world의 비율보다 작다면 가로 화면에 맞춰 world의 크기를 조절
   if (window.innerWidth / window.innerHeight < WORLD_WIDTH / WORLD_HEIGHT) {
     worldToPixelScale = window.innerWidth / WORLD_WIDTH;
   } else {
