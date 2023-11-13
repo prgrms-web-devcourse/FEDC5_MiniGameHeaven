@@ -1,10 +1,10 @@
-import BLOCKS from './blocks.js';
+import BLOCKS from './utils/blocks.js';
 import UserList from './UserList.js';
 
 const $playboard = document.querySelector('.playboard > ul');
 const $miniboard = document.querySelector('.miniboard > ul');
-const $scoreboardHigh = document.querySelector('.high :nth-child(2)');
-const $scoreboardScoreScore = document.querySelector('.score :nth-child(2)');
+const $scoreboardHigh = document.querySelector('.high_score');
+const $scoreboardNow = document.querySelector('.now_score');
 const $retryButton = document.querySelector('.gameover > button');
 const $gameover = document.querySelector('.gameover');
 
@@ -65,7 +65,7 @@ function checkMatch() {
       child.remove(); //?
       makeNewLine($playboard, ROWS, COLS);
       score += 1;
-      $scoreboardScoreScore.textContent = score;
+      $scoreboardNow.textContent = score;
     }
   });
   movingItem.type = nextItem.type;
@@ -84,14 +84,14 @@ function moveBlock(moveType, amount) {
 // 블록 이동 중지
 function seizeBlock() {
   const movingBlocks = document.querySelectorAll('.moving');
-  console.log(movingBlocks);
+  // console.log(movingBlocks);
 
   movingBlocks.forEach(movingBlock => {
-    console.log(movingBlock);
+    // console.log(movingBlock);
     // 이전 블록 위치에 moving 클래스를 제거
-    movingBlock.classList.add('seized');
     movingBlock.classList.remove('moving');
-    console.log(movingBlock);
+    movingBlock.classList.add('seized');
+    // console.log(movingBlock);
   });
   checkMatch();
 }
