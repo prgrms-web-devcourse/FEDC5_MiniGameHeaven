@@ -1,13 +1,25 @@
 /* 전역 css */
+html {
+  background-color: #372c25;
+}
+
 p {
   color: white;
   vertical-align: top;
+}
+
+/* 모바일 새로고침 방지 */
+body {
+  margin: 0;
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: none;
 }
 
 /* 전체 컨테이너 */
 
 .container {
   display: flex;
+  height: 100%;
   flex-direction: column;
   background-color: #372c25;
 }
@@ -27,6 +39,7 @@ p {
   justify-content: center;
   align-items: center;
   background: #372c25;
+  user-select: none;
 }
 
 .title {
@@ -46,6 +59,7 @@ p {
   align-items: center;
   background: #46382e;
   border-radius: 5px;
+  user-select: none;
 }
 
 .score-title {
@@ -64,6 +78,7 @@ p {
 .board {
   margin: 0 auto;
   padding: 20px 0;
+  user-select: none;
 }
 
 .board-row {
@@ -81,4 +96,24 @@ p {
   width: 70px;
   color: #684a23;
   background-color: #fbeddc;
+}
+
+/* 게임 메뉴 */
+.btn {
+  font-weight: 700;
+  align-items: center;
+  background: #46382e;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.1s ease-in;
+}
+
+.btn:hover {
+  background: #544337;
+}
+
+.new-game,
+.go-home {
+  user-select: none;
 }
