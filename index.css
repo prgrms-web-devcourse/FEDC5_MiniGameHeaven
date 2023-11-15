@@ -9,21 +9,32 @@ div {
   padding: 0;
   box-sizing: border-box;
 }
-
+.app {
+  position: relative;
+}
 .title {
   height: 10vh;
   background: royalblue;
   text-align: center;
 }
-
 .modal {
-  display: none;
+  opacity: 1;
+  transition: opacity 0.5s;
+  position: absolute;
+  top: 50%;
+  width: 300px;
+  left: calc(50% - 150px);
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .container {
+  transition: opacity 0.5s;
+
   /* display: none; */
   margin: 3% 10%;
   height: 80vh;
+  opacity: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
