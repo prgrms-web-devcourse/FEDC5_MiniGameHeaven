@@ -17,6 +17,14 @@ div {
   background: royalblue;
   text-align: center;
 }
+.title-username {
+  position: absolute;
+  margin-right: 5%;
+  font-size: 24px;
+  font-weight: bold;
+  color: purple;
+  right: 0;
+}
 .modal {
   opacity: 1;
   transition: opacity 0.5s;
@@ -52,8 +60,5 @@ div {
     margin: 5% 10%;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(4, 35vh);
-  }
-
-  .gameBox:last-child {
   }
 }

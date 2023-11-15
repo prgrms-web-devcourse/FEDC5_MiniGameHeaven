@@ -5,6 +5,7 @@ const $inputBtn = document.querySelector('.input-button');
 let value = '';
 function isUsername() {
   const username = localStorage.getItem('username');
+  displayUsername();
   return username ? true : false;
 }
 $input.style.opacity = isUsername() ? 0 : 1;
@@ -28,3 +29,8 @@ $input.addEventListener('keyup', e => {
 $inputBtn.addEventListener('click', e => {
   checkUsername(value);
 });
+
+function displayUsername() {
+  const $username = localStorage.getItem('username');
+  document.querySelector('.title-username').textContent = $username;
+}
