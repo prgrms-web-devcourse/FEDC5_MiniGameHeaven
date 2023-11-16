@@ -12,18 +12,29 @@ div {
 .app {
   position: relative;
 }
+
 .title {
   height: 10vh;
   background: royalblue;
   text-align: center;
 }
-.title-username {
+
+.user-info-wrapper {
+  display: flex;
+  gap: 10px;
   position: absolute;
   margin-right: 5%;
+  right: 0;
+}
+
+.title-username {
   font-size: 24px;
   font-weight: bold;
   color: purple;
-  right: 0;
+}
+
+.title-logout {
+  display: none;
 }
 .modal {
   opacity: 1;
