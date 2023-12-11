@@ -1,7 +1,17 @@
+import dummyData from './dummy.json' assert { type: 'json' };
+import dataFetch from './dataStore.js';
+
 const $input = document.querySelector('.modal');
 const $container = document.querySelector('.container');
 const $inputBtn = document.querySelector('.input-button');
 const $logoutBtn = document.querySelector('.title-logout');
+
+console.log(`123`, $input, $container, $inputBtn, $logoutBtn);
+
+console.log(dummyData);
+// console.log(dataFetch.getDataFromFireBase());
+
+const globalState = dummyData;
 
 let value = '';
 function isUsername() {
@@ -10,9 +20,15 @@ function isUsername() {
 
   return username ? true : false;
 }
-$input.style.opacity = isUsername() ? 0 : 1;
-$container.style.opacity = isUsername() ? 1 : 0;
-isUsername() && ($logoutBtn.style.display = 'block');
+
+if ($input) {
+  $input.style.opacity = isUsername() ? 0 : 1;
+}
+if ($container) {
+  $container.style.opacity = isUsername() ? 1 : 0;
+}
+
+isUsername() && $logoutBtn && ($logoutBtn.style.display = 'block');
 
 function checkUsername(value) {
   if (value.trim() !== '') {
@@ -40,7 +56,11 @@ $logoutBtn.addEventListener('click', e => {
 
 function displayUsername() {
   const $username = localStorage.getItem('username');
-  document.querySelector('.title-username').textContent = $username;
+  const $titleUsername = document.querySelector('.title-username');
+
+  if ($titleUsername) {
+    $titleUsername.textContent = $username;
+  }
 }
 
 function logout() {
@@ -51,3 +71,5 @@ function logout() {
     location.reload();
   }
 }
+
+export default globalState;
