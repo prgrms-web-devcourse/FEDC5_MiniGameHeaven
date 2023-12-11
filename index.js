@@ -6,13 +6,12 @@ const $container = document.querySelector('.container');
 const $inputBtn = document.querySelector('.input-button');
 const $logoutBtn = document.querySelector('.title-logout');
 
-console.log(`123`, $input, $container, $inputBtn, $logoutBtn);
+let fetchedData = null; // FireBase에서 가져온 데이터
 
-// 즉시 실행 함수
 (async () => {
   try {
-    const result = await getDataFromFireBase();
-    console.log(result);
+    fetchedData = await getDataFromFireBase();
+    console.log(fetchedData);
   } catch (error) {
     console.error(error);
   }
