@@ -1,0 +1,75 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.app {
+  position: relative;
+}
+
+.title {
+  height: 10vh;
+  background: royalblue;
+  text-align: center;
+}
+
+.user-info-wrapper {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  margin-right: 5%;
+  right: 0;
+}
+
+.title-username {
+  font-size: 24px;
+  font-weight: bold;
+  color: purple;
+}
+
+.title-logout {
+  display: none;
+}
+.modal {
+  opacity: 1;
+  transition: opacity 0.5s;
+  position: absolute;
+  top: 50%;
+  width: 300px;
+  left: calc(50% - 150px);
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.container {
+  transition: opacity 0.5s;
+
+  /* display: none; */
+  margin: 3% 10%;
+  height: 80vh;
+  opacity: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8vh;
+}
+
+.gameBox {
+  background-color: salmon;
+  border: 1px solid black;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    height: auto;
+    margin: 5% 10%;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 35vh);
+  }
+}

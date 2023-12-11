@@ -3,18 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="./Game1/src/favicon-32x2.png" />
+    <link rel="icon" href="/Games/Game1/src/favicon-32x32.png" />
     <title>🧩퍼즐 게임🧩</title>
-    <link rel="stylesheet" type="text/css" href="./Game1/src/game1.css" />
+    <link rel="stylesheet" type="text/css" href="/Games/Game1/src/game1.css" />
   </head>
   <body>
-    <div class="highScore">0</div>
-    <div class="wrap">
-      <p class="wrap__playTime">0</p>
-      <ul class="wrap__imageContainer"></ul>
-      <button class="wrap__startButton">Start</button>
-      <p class="wrap__gameCompleteText">Completed!</p>
-    </div>
-    <script src="./Game1/src/game1.js"></script>
+    <main class="app">
+      <div class="highScore"></div>
+      <div class="wrap">
+        <p class="wrap__playTime">0</p>
+        <ul class="wrap__imageContainer"></ul>
+        <button class="wrap__startButton">Start</button>
+        <button class="wrap__stopButton">Stop</button>
+        <p class="wrap__gameCompleteText">Completed!</p>
+      </div>
+    </main>
+    <script src="/Games/Game1/src/main.js" type="module"></script>
   </body>
 </html>
