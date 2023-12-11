@@ -1,5 +1,5 @@
 import dummyData from './dummy.json' assert { type: 'json' };
-import dataFetch from './dataStore.js';
+import getDataFromFireBase from './dataStore.js';
 
 const $input = document.querySelector('.modal');
 const $container = document.querySelector('.container');
@@ -8,8 +8,15 @@ const $logoutBtn = document.querySelector('.title-logout');
 
 console.log(`123`, $input, $container, $inputBtn, $logoutBtn);
 
-console.log(dummyData);
-// console.log(dataFetch.getDataFromFireBase());
+// 즉시 실행 함수
+(async () => {
+  try {
+    const result = await getDataFromFireBase();
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
+})();
 
 const globalState = dummyData;
 
