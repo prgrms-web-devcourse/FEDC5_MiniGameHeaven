@@ -1,38 +1,34 @@
 {
-  "gameData": [
-    {
-      "game1": {
-        "name": "kim",
-        "score": "0"
-      },
-      "game2": {
-        "name": "k22",
-        "score": "2"
-      },
-      "game3": {
-        "name": "k33",
-        "score": "3"
-      },
-      "game4": {
-        "name": "k33",
-        "score": "3"
-      }
+  "winnerData": {
+    "game1": {
+      "name": "kim",
+      "score": 10
+    },
+    "game2": {
+      "name": "lee",
+      "score": 2
+    },
+    "game3": {
+      "name": "yoon",
+      "score": 3
+    },
+    "game4": {
+      "name": "choi",
+      "score": 3
     }
-  ],
-  "userData": [
-    {
-      "kim": {
-        "game1": 1,
-        "game2": 2,
-        "game3": 3,
-        "game4": 4
-      },
-      "lee": {
-        "game1": 11,
-        "game2": 22,
-        "game3": 33,
-        "game4": 44
-      }
+  },
+  "usersData": {
+    "kim": {
+      "game1": 1,
+      "game2": 2,
+      "game3": 3,
+      "game4": 4
+    },
+    "lee": {
+      "game1": 11,
+      "game2": 22,
+      "game3": 33,
+      "game4": 44
     }
-  ]
+  }
 }
