@@ -1,15 +1,21 @@
 import dummyData from './dummy.json' assert { type: 'json' };
-import dataFetch from './dataStore.js';
+import getDataFromFireBase from './dataStore.js';
 
 const $input = document.querySelector('.modal');
 const $container = document.querySelector('.container');
 const $inputBtn = document.querySelector('.input-button');
 const $logoutBtn = document.querySelector('.title-logout');
 
-console.log(`123`, $input, $container, $inputBtn, $logoutBtn);
+let fetchedData = null; // FireBase에서 가져온 데이터
 
-console.log(dummyData);
-// console.log(dataFetch.getDataFromFireBase());
+(async () => {
+  try {
+    fetchedData = await getDataFromFireBase();
+    console.log(fetchedData);
+  } catch (error) {
+    console.error(error);
+  }
+})();
 
 const globalState = dummyData;
 

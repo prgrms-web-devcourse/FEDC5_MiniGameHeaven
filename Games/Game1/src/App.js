@@ -11,12 +11,10 @@ import {
   activeCheat,
 } from './utils.js';
 import { getItem, setItem } from './storage.js';
-import globalState from '../../../index.js';
 
 const $ = document;
 
 export default function App({ $target }) {
-  console.log(globalState);
   console.log(`hello game1`);
 
   this.state = {
